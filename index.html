@@ -4,20 +4,6 @@
   <meta charset="UTF-8">
   <title>LIME Explanation Demo</title>
   <style>
-    /* Style for positive contributions */
-    .positive {
-      background-color: rgba(0, 255, 0, 0.5); /* Green with opacity */
-      padding: 2px;
-      border-radius: 3px;
-    }
-
-    /* Style for negative contributions */
-    .negative {
-      background-color: rgba(255, 0, 0, 0.5); /* Red with opacity */
-      padding: 2px;
-      border-radius: 3px;
-    }
-
     /* Style for the explanation container */
     #explanation-output {
       border: 1px solid #ccc;
@@ -46,12 +32,6 @@
       font-size: 14px;
     }
 
-    /* Optional: Hover effect for spans */
-    #explanation-output span:hover {
-      cursor: pointer;
-      outline: 1px dashed #000;
-    }
-
     /* Style for the textarea and button */
     textarea {
       width: 100%;
@@ -77,6 +57,12 @@
 
     button:hover {
       background-color: #45a049;
+    }
+
+    /* Optional: Hover effect for spans */
+    #explanation-output span:hover {
+      cursor: pointer;
+      outline: 1px dashed #000;
     }
 
     /* Responsive Design */
