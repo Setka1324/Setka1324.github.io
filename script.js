@@ -11,7 +11,7 @@ explainBtn.addEventListener("click", async () => {
   // Display loading messages
   outputDiv.innerHTML = "Loading explanation...";
   probsDiv.innerHTML = "Loading prediction probabilities...";
-  weightsDiv.innerHTML = "Loading word weights..."; // Initialize loading state
+  weightsDiv.innerHTML = "Loading word contributions..."; // Initialize loading state
 
   const text = textArea.value.trim();
   if (!text) {
@@ -56,17 +56,21 @@ explainBtn.addEventListener("click", async () => {
     probsDiv.innerHTML = probsHtml;
 
     // Generate HTML for sorted word weights
-    let weightsHtml = "<ul>";
-    wordWeights.forEach(([word, weight]) => {
-      weightsHtml += `<li><strong>${word}</strong>: ${weight.toFixed(4)}</li>`;
-    });
-    weightsHtml += "</ul>";
-    weightsDiv.innerHTML = weightsHtml;
+    if (wordWeights.length > 0) {
+      let weightsHtml = "<ul>";
+      wordWeights.forEach(([word, weight]) => {
+        weightsHtml += `<li><strong>${word}</strong>: ${weight.toFixed(4)}</li>`;
+      });
+      weightsHtml += "</ul>";
+      weightsDiv.innerHTML = weightsHtml;
+    } else {
+      weightsDiv.innerHTML = "No significant word contributions to display.";
+    }
 
   } catch (err) {
     console.error(err);
     outputDiv.innerHTML = "Error: " + err.message;
     probsDiv.innerHTML = "Error fetching prediction probabilities.";
-    weightsDiv.innerHTML = "Error fetching word weights.";
+    weightsDiv.innerHTML = "Error fetching word contributions.";
   }
 });
