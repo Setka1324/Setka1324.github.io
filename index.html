@@ -3,32 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <title>LIME Explanation Demo</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Add Chart.js -->
   <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background-color: #f5f5f5;
+    /* Style for the explanation container */
+    #explanation-output {
+      border: 1px solid #ccc;
+      padding: 10px;
+      min-height: 200px;
+      margin-top: 10px;
+      white-space: pre-wrap;
+      font-size: 16px;
+      line-height: 1.5;
     }
 
-    h1 {
-      text-align: center;
+    /* Style for the probabilities container */
+    #prediction-probabilities {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: fit-content;
+      background-color: #f9f9f9;
     }
 
-    #input-container {
-      text-align: center;
-      width: 100%;
-      max-width: 800px;
-      margin-bottom: 20px;
+    /* Styling for individual probability entries */
+    .probability {
+      margin: 5px 0;
+      font-weight: bold;
+      font-size: 14px;
     }
 
+    /* Style for the word weights container */
+    #word-weights {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: fit-content;
+      background-color: #f1f1f1;
+    }
+
+    #word-weights ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    #word-weights li {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    /* Style for the textarea and button */
     textarea {
       width: 100%;
-      max-width: 600px;
+      max-width: 800px;
       height: 150px;
       padding: 10px;
       font-size: 16px;
@@ -52,94 +79,47 @@
       background-color: #45a049;
     }
 
-    #output-container {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      max-width: 800px;
-      gap: 20px;
-    }
-
-    #explanation-output {
-      flex: 2;
-      border: 1px solid #ccc;
-      padding: 10px;
-      min-height: 200px;
-      white-space: pre-wrap;
-      font-size: 16px;
-      line-height: 1.5;
-      background-color: #ffffff;
-      border-radius: 5px;
-    }
-
-    #word-weights {
-      flex: 1;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #f1f1f1;
-      max-height: 300px;
-      overflow-y: auto;
-    }
-
-    #word-weights ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    #word-weights li {
-      margin: 5px 0;
+    /* Style for the character counter */
+    #char-counter {
       font-size: 14px;
+      margin-top: 5px;
+      color: #555;
     }
 
-    /* Probability chart container */
-    #prediction-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 20px;
-    }
-
-    #probability-chart {
-      max-width: 300px;
-      max-height: 300px;
-    }
-
+    /* Responsive Design */
     @media (max-width: 600px) {
-      textarea, button, #output-container {
+      textarea {
         width: 100%;
       }
 
-      #output-container {
-        flex-direction: column;
+      button {
+        width: 100%;
       }
 
-      #word-weights {
-        max-height: none;
+      #prediction-probabilities, #explanation-output, #word-weights {
+        width: 100%;
       }
     }
   </style>
 </head>
 <body>
   <h1>LIME Text Explainer</h1>
+  
+  <textarea id="user-text" placeholder="Enter your text here..."></textarea>
+  <div id="char-counter">0/200</div>
+  <button id="explain-btn">Explain</button>
 
-  <div id="input-container">
-    <textarea id="user-text" placeholder="Enter your text here..."></textarea>
-    <br/>
-    <button id="explain-btn">Explain</button>
+  <h3>Prediction Probabilities</h3>
+  <div id="prediction-probabilities">
+    <!-- Prediction probabilities will be inserted here -->
   </div>
 
-  <div id="output-container">
-    <div id="explanation-output">Colored explanation will appear here.</div>
-    <div id="word-weights">
-      <h3>Word Contributions</h3>
-      <!-- Sorted word contributions will be inserted here -->
-    </div>
-  </div>
+  <h3>Explanation Output</h3>
+  <div id="explanation-output"></div>
 
-  <div id="prediction-container">
-    <h3>Prediction Probabilities</h3>
-    <canvas id="probability-chart"></canvas>
+  <h3>Word Contributions</h3>
+  <div id="word-weights">
+    <!-- Sorted word contributions will be inserted here -->
   </div>
 
   <script src="script.js"></script>
