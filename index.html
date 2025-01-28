@@ -25,6 +25,8 @@
       min-height: 200px;
       margin-top: 10px;
       white-space: pre-wrap; /* Preserve whitespace */
+      font-size: 16px;
+      line-height: 1.5;
     }
 
     /* Style for the probabilities container */
@@ -34,18 +36,69 @@
       border: 1px solid #ccc;
       border-radius: 5px;
       width: fit-content;
+      background-color: #f9f9f9;
     }
 
-    /* Optional: Styling for individual probability entries */
+    /* Styling for individual probability entries */
     .probability {
       margin: 5px 0;
       font-weight: bold;
+      font-size: 14px;
+    }
+
+    /* Optional: Hover effect for spans */
+    #explanation-output span:hover {
+      cursor: pointer;
+      outline: 1px dashed #000;
+    }
+
+    /* Style for the textarea and button */
+    textarea {
+      width: 100%;
+      max-width: 800px;
+      height: 150px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50; /* Green */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      textarea {
+        width: 100%;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      #prediction-probabilities, #explanation-output {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
   <h1>LIME Text Explainer</h1>
-  <textarea id="user-text" rows="10" cols="80" placeholder="Enter your text here..."></textarea>
+  
+  <textarea id="user-text" placeholder="Enter your text here..."></textarea>
   <br/>
   <button id="explain-btn">Explain</button>
 

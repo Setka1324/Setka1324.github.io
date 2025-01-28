@@ -7,6 +7,7 @@ const probsDiv   = document.getElementById("prediction-probabilities");
 const HF_EXPLAIN_URL = "https://setka1324-uni-test.hf.space/explain";
 
 explainBtn.addEventListener("click", async () => {
+  // Display loading messages
   outputDiv.innerHTML = "Loading explanation...";
   probsDiv.innerHTML = "Loading prediction probabilities...";
 
@@ -28,15 +29,21 @@ explainBtn.addEventListener("click", async () => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    // { html: "<HTML from LIME>", probabilities: { ... } }
+    // Expecting { html: "<HTML from LIME>", probabilities: { ... } }
     const data = await response.json();
+    
+    // Handle potential error responses
+    if (data.error) {
+      throw new Error(data.error);
+    }
+
     const explanationHtml = data.html;
     const probabilities = data.probabilities;
 
-    // Insert the LIME HTML into the page
+    // Insert the LIME HTML into the explanation output div
     outputDiv.innerHTML = explanationHtml;
 
-    // Display prediction probabilities
+    // Generate HTML for prediction probabilities
     let probsHtml = "";
     for (const [className, prob] of Object.entries(probabilities)) {
       const percentage = (prob * 100).toFixed(2) + "%";
