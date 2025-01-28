@@ -7,6 +7,9 @@ const charCounter = document.getElementById("char-counter");
 
 let probabilityChart = null; // Chart.js instance
 
+// Replace with your actual Hugging Face Space endpoint
+const HF_EXPLAIN_URL = "https://setka1324-uni-test.hf.space/explain";
+
 // Example inputs
 const exampleInputs = [
   "I feel amazing today! Everything is going my way, and I'm so excited for the future.",
@@ -36,25 +39,26 @@ function updateCharCounter() {
 textArea.addEventListener("input", updateCharCounter);
 
 explainBtn.addEventListener("click", async () => {
-  outputDiv.innerHTML = "Loading explanation...";
-  weightsDiv.innerHTML = "<h3>Word Contributions</h3><p>Loading...</p>";
-
   const text = textArea.value.trim();
+
   if (!text) {
     outputDiv.innerHTML = "Please enter some text first.";
     weightsDiv.innerHTML = "<h3>Word Contributions</h3><p>No input provided.</p>";
     return;
   }
 
+  outputDiv.innerHTML = "Loading explanation...";
+  weightsDiv.innerHTML = "<h3>Word Contributions</h3><p>Loading...</p>";
+
   try {
     const response = await fetch(HF_EXPLAIN_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text })
+      body: JSON.stringify({ text: text }) // Ensure correct format
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
     const data = await response.json();
@@ -62,17 +66,13 @@ explainBtn.addEventListener("click", async () => {
       throw new Error(data.error);
     }
 
-    const explanationHtml = data.html;
-    const probabilities = data.probabilities;
-    const wordWeights = data.word_weights;
-
     // Insert LIME explanation HTML
-    outputDiv.innerHTML = explanationHtml;
+    outputDiv.innerHTML = data.html || "No explanation available.";
 
     // Generate HTML for sorted word weights
     let weightsHtml = "<h3>Word Contributions</h3><ul>";
-    if (wordWeights.length > 0) {
-      wordWeights.forEach(([word, weight]) => {
+    if (data.word_weights.length > 0) {
+      data.word_weights.forEach(([word, weight]) => {
         weightsHtml += `<li><strong>${word}</strong>: ${weight.toFixed(4)}</li>`;
       });
     } else {
@@ -82,10 +82,10 @@ explainBtn.addEventListener("click", async () => {
     weightsDiv.innerHTML = weightsHtml;
 
     // Generate probability chart
-    updateProbabilityChart(probabilities);
+    updateProbabilityChart(data.probabilities);
 
   } catch (err) {
-    console.error(err);
+    console.error("Error fetching explanation:", err);
     outputDiv.innerHTML = "Error: " + err.message;
     weightsDiv.innerHTML = "<h3>Word Contributions</h3><p>Error fetching contributions.</p>";
   }
@@ -93,6 +93,10 @@ explainBtn.addEventListener("click", async () => {
 
 // Function to update the probability chart
 function updateProbabilityChart(probabilities) {
+  if (!probabilities) {
+    return;
+  }
+
   const labels = Object.keys(probabilities);
   const values = Object.values(probabilities).map(p => p * 100);
 
