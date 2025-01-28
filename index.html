@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>LIME Explanation Demo</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Add Chart.js -->
   <style>
     body {
       display: flex;
@@ -40,7 +41,7 @@
       margin-top: 10px;
       padding: 10px 20px;
       font-size: 16px;
-      background-color: #4CAF50; /* Green */
+      background-color: #4CAF50;
       color: white;
       border: none;
       border-radius: 5px;
@@ -59,20 +60,18 @@
       gap: 20px;
     }
 
-    /* Explanation container */
     #explanation-output {
       flex: 2;
       border: 1px solid #ccc;
       padding: 10px;
       min-height: 200px;
-      white-space: pre-wrap; /* Preserve whitespace */
+      white-space: pre-wrap;
       font-size: 16px;
       line-height: 1.5;
       background-color: #ffffff;
       border-radius: 5px;
     }
 
-    /* Word contributions container */
     #word-weights {
       flex: 1;
       padding: 10px;
@@ -83,7 +82,6 @@
       overflow-y: auto;
     }
 
-    /* Styling for the word weights list */
     #word-weights ul {
       list-style-type: none;
       padding: 0;
@@ -94,24 +92,19 @@
       font-size: 14px;
     }
 
-    /* Prediction probabilities container */
-    #prediction-probabilities {
+    /* Probability chart container */
+    #prediction-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       margin-top: 20px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #f9f9f9;
-      width: 100%;
-      max-width: 600px;
     }
 
-    .probability {
-      margin: 5px 0;
-      font-weight: bold;
-      font-size: 14px;
+    #probability-chart {
+      max-width: 300px;
+      max-height: 300px;
     }
 
-    /* Responsive Design */
     @media (max-width: 600px) {
       textarea, button, #output-container {
         width: 100%;
@@ -144,9 +137,9 @@
     </div>
   </div>
 
-  <div id="prediction-probabilities">
+  <div id="prediction-container">
     <h3>Prediction Probabilities</h3>
-    <!-- Prediction probabilities will be inserted here -->
+    <canvas id="probability-chart"></canvas>
   </div>
 
   <script src="script.js"></script>
