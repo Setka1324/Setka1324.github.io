@@ -2,6 +2,7 @@ const explainBtn = document.getElementById("explain-btn");
 const textArea   = document.getElementById("user-text");
 const outputDiv  = document.getElementById("explanation-output");
 const probsDiv   = document.getElementById("prediction-probabilities");
+const weightsDiv = document.getElementById("word-weights"); // New container
 
 // Replace with your actual Hugging Face Space endpoint
 const HF_EXPLAIN_URL = "https://setka1324-uni-test.hf.space/explain";
@@ -10,11 +11,13 @@ explainBtn.addEventListener("click", async () => {
   // Display loading messages
   outputDiv.innerHTML = "Loading explanation...";
   probsDiv.innerHTML = "Loading prediction probabilities...";
+  weightsDiv.innerHTML = "Loading word weights..."; // Initialize loading state
 
   const text = textArea.value.trim();
   if (!text) {
     outputDiv.innerHTML = "Please enter some text first.";
     probsDiv.innerHTML = "";
+    weightsDiv.innerHTML = "";
     return;
   }
 
@@ -29,7 +32,7 @@ explainBtn.addEventListener("click", async () => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    // Expecting { html: "<HTML from LIME>", probabilities: { ... } }
+    // Expecting { html: "<HTML from LIME>", word_weights: [ [word, weight], ... ], probabilities: { ... } }
     const data = await response.json();
     
     // Handle potential error responses
@@ -39,6 +42,7 @@ explainBtn.addEventListener("click", async () => {
 
     const explanationHtml = data.html;
     const probabilities = data.probabilities;
+    const wordWeights = data.word_weights;
 
     // Insert the LIME HTML into the explanation output div
     outputDiv.innerHTML = explanationHtml;
@@ -51,9 +55,18 @@ explainBtn.addEventListener("click", async () => {
     }
     probsDiv.innerHTML = probsHtml;
 
+    // Generate HTML for sorted word weights
+    let weightsHtml = "<ul>";
+    wordWeights.forEach(([word, weight]) => {
+      weightsHtml += `<li><strong>${word}</strong>: ${weight.toFixed(4)}</li>`;
+    });
+    weightsHtml += "</ul>";
+    weightsDiv.innerHTML = weightsHtml;
+
   } catch (err) {
     console.error(err);
     outputDiv.innerHTML = "Error: " + err.message;
     probsDiv.innerHTML = "Error fetching prediction probabilities.";
+    weightsDiv.innerHTML = "Error fetching word weights.";
   }
 });

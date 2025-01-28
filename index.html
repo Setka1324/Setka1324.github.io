@@ -32,6 +32,27 @@
       font-size: 14px;
     }
 
+    /* Style for the word weights container */
+    #word-weights {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: fit-content;
+      background-color: #f1f1f1;
+    }
+
+    /* Styling for the word weights list */
+    #word-weights ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    #word-weights li {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
     /* Style for the textarea and button */
     textarea {
       width: 100%;
@@ -75,7 +96,7 @@
         width: 100%;
       }
 
-      #prediction-probabilities, #explanation-output {
+      #prediction-probabilities, #explanation-output, #word-weights {
         width: 100%;
       }
     }
@@ -95,6 +116,11 @@
 
   <h3>Explanation Output</h3>
   <div id="explanation-output"></div>
+
+  <h3>Word Contributions</h3>
+  <div id="word-weights">
+    <!-- Sorted word weights will be inserted here -->
+  </div>
 
   <script src="script.js"></script>
 </body>
