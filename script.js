@@ -2,8 +2,7 @@ const explainBtn = document.getElementById("explain-btn");
 const textArea   = document.getElementById("user-text");
 const outputDiv  = document.getElementById("explanation-output");
 
-// Replace with your actual Hugging Face Space endpoint, e.g.:
-//   "https://myusername-mylimespace.hf.space/explain"
+// Replace with your actual Hugging Face Space endpoint
 const HF_EXPLAIN_URL = "https://setka1324-uni-test.hf.space/explain";
 
 explainBtn.addEventListener("click", async () => {
