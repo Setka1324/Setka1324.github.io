@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const probabilityChartCanvas = document.getElementById("probability-chart");
     const charCounter = document.getElementById("char-counter");
   
+    const MAX_CHAR_LIMIT = 200; // Set the character limit
     let probabilityChart = null; // Chart.js instance
   
     // Ensure elements exist before running code
@@ -34,16 +35,20 @@ document.addEventListener("DOMContentLoaded", function () {
       updateCharCounter();
     }
   
-    // Limit input to 200 characters and update the counter
+    // Limit input to MAX_CHAR_LIMIT and update the counter
     function updateCharCounter() {
       if (!charCounter) return;
       const textLength = textArea.value.length;
-      charCounter.textContent = `${textLength}/200`;
-      if (textLength > 200) {
-        textArea.value = textArea.value.slice(0, 200); // Trim extra characters
+  
+      // Prevent typing beyond the limit
+      if (textLength > MAX_CHAR_LIMIT) {
+        textArea.value = textArea.value.slice(0, MAX_CHAR_LIMIT);
       }
+  
+      charCounter.textContent = `${textArea.value.length}/${MAX_CHAR_LIMIT}`;
     }
   
+    // Attach input event listener to enforce character limit
     textArea.addEventListener("input", updateCharCounter);
   
     explainBtn.addEventListener("click", async () => {
