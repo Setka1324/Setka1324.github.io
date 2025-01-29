@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LIME Explanation Demo</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Add Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       display: flex;
@@ -34,13 +35,13 @@
       font-size: 16px;
       border: 1px solid #ccc;
       border-radius: 5px;
-      resize: vertical;
+      resize: none;
     }
 
     #char-counter {
       font-size: 14px;
-      color: #555;
-      margin-top: 5px;
+      color: #666;
+      text-align: right;
     }
 
     button {
@@ -111,17 +112,24 @@
       max-height: 300px;
     }
 
-    @media (max-width: 600px) {
-      textarea, button, #output-container {
-        width: 100%;
-      }
-
+    /* 🟢 MOBILE RESPONSIVE DESIGN */
+    @media (max-width: 768px) {
       #output-container {
         flex-direction: column;
+        align-items: center;
+      }
+
+      #explanation-output, #word-weights {
+        width: 100%;
       }
 
       #word-weights {
         max-height: none;
+      }
+
+      #probability-chart {
+        max-width: 200px;
+        max-height: 200px;
       }
     }
   </style>
